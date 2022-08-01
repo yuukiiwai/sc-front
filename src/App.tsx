@@ -2,11 +2,14 @@ import React from 'react';
 import './App.css';
 import Input from './Input';
 import Checkboxs from './Checkboxs';
-import OutTable from './OutTable';
 import axios from 'axios';
 import swal from 'sweetalert';
 import { outitem } from './OutTable';
-import { prurl } from './private';
+import Appinput from './Appinput';
+import Nav from './Nav';
+import Tablecnt from './TableCnt';
+import { gra } from './GraTable';
+import SiteAbout from './SiteAbout';
 
 function App() {  
   // for test function
@@ -18,13 +21,13 @@ function App() {
   }
 
   /* input state */
-  const hosturl = prurl;
+  const hosturl = process.env.REACT_APP_API_ORIGIN;
   const [appname,setAppname] = React.useState('');
   const [cpu,setCPU] = React.useState('');
   const [options, setOption] = React.useState(Array<string>);
 
   /* output state */
-  const [grab_list,setGrab] = React.useState(Array<outitem>);
+  const [gra_list,setGrab] = React.useState(Array<gra>);
   const [memo_list,setMemor] = React.useState(Array<outitem>);
 
   const handleAppname = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +47,6 @@ function App() {
   }
 
   const handleClick = () => {
-    //console.log("click");
     const oriurl:string = hosturl + "/api/v1/devicesearch/appsatgra/"
     if(appname === ""){
       swal({
@@ -65,12 +67,18 @@ function App() {
     .then(res => {
       const data = res.data;
       const graData = data.gra_list;
-      let tmpGrlist:Array<outitem> = [];
+      let tmpGrlist:Array<gra> = [];
       for(let i=0;i<graData.length;i++){
-        tmpGrlist.push({
+        let newgra:gra = {
           name:graData[i].name,
-          url:graData[i].url
-        })
+          url:graData[i].url,
+          directx:graData[i].directx,
+          gpu:graData[i].gpu,
+          interface:graData[i].interface,
+          manufacture:graData[i].manufacture,
+          opengl:graData[i].opengl
+        }
+        tmpGrlist.push(newgra)
       }
       setGrab(tmpGrlist);
     })
@@ -78,9 +86,9 @@ function App() {
 
   return (
     <div className="main">
-      <div className='side'>
-        <div className="accordion box">
-          <Input
+      <Nav/>
+      <SiteAbout />
+      <Appinput
             id='1'
             title='アプリ名'
             value={appname}
@@ -88,35 +96,43 @@ function App() {
             handlechange={handleAppname}
             enter={handleClick}
           />
-          <Input
-            id='2'
-            title='CPU名'
-            value={cpu}
-            example="Intel Core i5-4590S"
-            handlechange={handleCpu}
-            enter={handleClick}
-          />
-          <Checkboxs
-            id='3'
-            title='オプション'
-            handlechange={handleoption}
-            checkitem={[{name:"low profile",value:"lowprofile"},]}
-          />
+      <div className='parallel'>
+        <div className='side'>
+          <div className="accordion box">
+            <Input
+              id='2'
+              title='CPU名 (例:Intel Core i5-4590S)'
+              value={cpu}
+              example="Intel Core i5-4590S"
+              handlechange={handleCpu}
+              enter={handleClick}
+            />
+            <Checkboxs
+              id='3'
+              title='オプション'
+              handlechange={handleoption}
+              checkitem={[{name:"low profile",value:"lowprofile"},]}
+            />
+          </div>
+          <button type='button' className='btn btn-outline-dark btn-lg box schbutton' onClick={handleClick}>検索</button>
         </div>
-        <button type='button' className='btn btn-outline-dark btn-lg box schbutton' onClick={handleClick}>検索</button>
-      </div>
-      <div className='tablecont'>
-        <div className='box d-flex flex-row'>
-          <OutTable
-          title='グラフィックカード'
-          list={grab_list}
+        <div className='tablecont'>
+          <Tablecnt 
+            gralist={gra_list}
           />
-          <OutTable
-          title='メモリ'
-          list = {memo_list}
-          />
+          {/* <div className='box d-flex flex-row'>
+            <OutTable
+            title='グラフィックカード'
+            list={gra_list}
+            />
+            <OutTable
+            title='メモリ'
+            list = {memo_list}
+            />
+          </div> */}
         </div>
       </div>
+      
     </div>
   );
 }

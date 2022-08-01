@@ -1,6 +1,6 @@
 import React,{FC} from "react"
 
-interface tableprops{
+export interface tableprops{
     title:string,
     list : Array<outitem>,
 }
@@ -16,7 +16,7 @@ const OutTable:FC<tableprops> = (props:tableprops) => {
             <table className='table table-striped'>
                 <thead  className="sticky-top bg-light">
                     <tr >
-                        <th scope='col'>{props.title}</th>
+                        <th scope='col'>{props.title+"("+props.list.length+")"}</th>
                         <th scope="col">公式ページ</th>
                         <th scope="col">amazon</th>
                     </tr>
