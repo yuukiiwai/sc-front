@@ -70,6 +70,11 @@
   margin-top: 50px;
 }
 
+.center-h {
+  text-align: center;
+  letter-spacing: 1vw;
+}
+
 @media screen and (max-width:1024px){
   
 }

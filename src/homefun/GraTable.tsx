@@ -35,22 +35,22 @@ const GraTable:FC<gratableprops> = (props:gratableprops) => {
                     {props.list.map((gra:gra,key)=>{
                             return(
                                 <tr key={key}>
-                                    <th className="col-md-6">
+                                    <th className="col-md-4">
                                         {gra.name}
                                     </th>
                                     <th className="col-md-1">
                                         {gra.manufacture}
                                     </th>
-                                    <th className="col-md-3">
+                                    <th className="col-md-2">
                                         {gra.interface}
                                     </th>
-                                    <th className="col-md-1">
+                                    <th className="col-md-2">
                                         {gra.gpu}
                                     </th>
-                                    <th className="col-md-2">
+                                    <th className="col-md-1">
                                         {gra.directx}
                                     </th>
-                                    <th className="col-md-2">
+                                    <th className="col-md-1">
                                         {gra.opengl}
                                     </th>
                                     <th className="col-md-2">
