@@ -17,14 +17,14 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
     // for test function
     const handleClick_tes = () =>{
         console.log("click");
-        console.log(appname);
+        console.log(appnames);
         console.log(cpu);
         console.log(options);
     }
 
     /* input state */
     const hosturl = props.hosturl;
-    const [appname,setAppname] = React.useState('');
+    const [appnames,setAppname] = React.useState<Array<string>>([""]);
     const [cpu,setCPU] = React.useState('');
     const [options, setOption] = React.useState(Array<string>);
 
@@ -32,8 +32,10 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
     const [gra_list,setGrab] = React.useState(Array<gra>);
     const [memo_list,setMemor] = React.useState(Array<outitem>);
 
-    const handleAppname = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setAppname(e.target.value);
+    const handleAppname = (e:React.ChangeEvent<HTMLInputElement>,key:number) => {
+        let newappnames = appnames.slice();
+        newappnames.splice(key,1,e.target.value);
+        setAppname(newappnames);
     }
 
     const handleCpu = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -48,9 +50,21 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
         }
     }
 
+    const plusbutton = () => {
+        let tarr = appnames.slice();
+        tarr.push("");
+        setAppname(tarr);
+    }
+
+    const minusbutton = () => {
+        let tarr = appnames.slice();
+        tarr.pop();
+        setAppname(tarr);
+    }
+
     const handleClick = () => {
         const oriurl:string = hosturl + "/api/v1/devicesearch/appsat/gra/"
-        if(appname === ""){
+        if(appnames.length === 1 && appnames[0] === ""){
         swal({
             title:"アプリ名を入力してください。",
             icon:"error",
@@ -58,13 +72,19 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
         });
         return;
         }
-        let url:string = oriurl + "?appname=" +appname;
+        let pappname:string = appnames.filter((appname)=>{
+            if (appname.replace(" ","") !== ""){
+                return appname;
+            }
+        }).join("&appname[]=");
+        let url:string = oriurl + "?appname[]=" + pappname;
         if(cpu !== ""){
         url = url + "&cpu="+cpu;
         }
         for(let i:number = 0; i < options.length ; i++){
         url = url + "&" + options[i] + "=true";
         }
+        console.log(url);
         axios.get(url)
         .then(res => {
         const data = res.data;
@@ -90,21 +110,22 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
         <div className="main">
             <SiteAbout />
             <Appinput
-                    id='1'
-                    title='アプリ名'
-                    value={appname}
-                    example="MINECRAFT"
-                    handlechange={handleAppname}
-                    enter={handleClick}
+                value={appnames}
+                example="どのアプリを使いたいですか？（例:OBS）"
+                handlechange={handleAppname}
+                enter={handleClick}
+                plusbutton={plusbutton}
+                minusbutton={minusbutton}
                 />
+                <hr></hr>
             <div className='parallel'>
                 <div className='side'>
                     <div className="accordion box">
                         <Input
                         id='2'
-                        title='CPU名 (例:Intel Core i5-4590S)'
+                        title='CPU名'
                         value={cpu}
-                        example="Intel Core i5-4590S"
+                        example="(例:Intel Core i5-4590S)"
                         handlechange={handleCpu}
                         enter={handleClick}
                         />
@@ -115,7 +136,7 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
                         checkitem={[{name:"low profile",value:"lowprofile"},]}
                         />
                     </div>
-                    <button type='button' className='btn btn-outline-dark btn-lg box schbutton' onClick={handleClick}>検索</button>
+                    <button type='button' className='btn btn-outline-dark btn-lg schbutton' onClick={handleClick}>検索</button>
                 </div>
                 <div className='tablecont'>
                     <Tablecnt 
