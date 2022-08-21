@@ -51,7 +51,7 @@ const SiteAbout:React.FC = () =>{
                 
                 <h1 className="center-h">このサイトについて</h1>
                 <hr />
-                <p>チュートリアルを...</p>
+                <p>使い方を...</p>
                 <p onClick={LookSiteAbout}>見る</p>
                 <p onClick={notLookSiteAbout}>見ない</p>
                 <p onClick={()=>{

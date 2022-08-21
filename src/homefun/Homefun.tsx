@@ -91,7 +91,9 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
         for(let i:number = 0; i < options.length ; i++){
         url = url + "&" + options[i] + "=true";
         }
-        console.log(url);
+
+        // console.log(url);
+        
         axios.get(url)
         .then(res => {
         const data = res.data;
