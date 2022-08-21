@@ -7,21 +7,13 @@ import { outitem } from './OutTable';
 import Appinput from './Appinput';
 import Tablecnt from './TableCnt';
 import { gra } from './GraTable';
-import SiteAbout from './SiteAbout';
+import SiteAbout from './SiteAbout/SiteAbout';
 
 export interface homeprops {
     hosturl:string | undefined
 }
 
 const Homefun:React.FC<homeprops> = (props:homeprops) =>{
-    // for test function
-    const handleClick_tes = () =>{
-        console.log("click");
-        console.log(appnames);
-        console.log(cpu);
-        console.log(options);
-    }
-
     /* input state */
     const hosturl = props.hosturl;
     const [appnames,setAppname] = React.useState<Array<string>>([""]);
@@ -51,9 +43,24 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
     }
 
     const plusbutton = () => {
-        let tarr = appnames.slice();
-        tarr.push("");
-        setAppname(tarr);
+        let allowplus = false;
+        for(let i = 0;i<appnames.length;i++){
+            if(appnames[i] !== ""){
+                allowplus = true;
+                break;
+            }
+        }
+        if(allowplus){
+            let tarr = appnames.slice();
+            tarr.push("");
+            setAppname(tarr);
+        }else{
+            swal({
+                title:"すべて空欄です。",
+                icon:"error",
+                text:"枠を追加するには、１つは埋める必要があります。",
+            });
+        }
     }
 
     const minusbutton = () => {
@@ -108,7 +115,8 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
 
     return (
         <div className="main">
-            <SiteAbout />
+            <SiteAbout 
+            />
             <Appinput
                 value={appnames}
                 example="どのアプリを使いたいですか？（例:OBS）"

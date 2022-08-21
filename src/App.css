@@ -94,6 +94,130 @@
   border: solid;
 }
 
+#overlay{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00001070;
+  z-index: 2100000000;
+}
+
+#overlay .overtext{
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 100%;
+  transform: translate(-50%,-50%);
+  color: rgba(250, 250, 250, 1);
+  font-size: 24px;
+  text-align: center;
+}
+
+.orver-next {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  transform: translate(-50%,-50%);
+  color: #f0f0f0;
+  font-size: 150px;
+  text-align: center;
+}
+
+.orver-next-t {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: 100%;
+  transform: translate(-50%,-50%);
+  color: #f0f0f0;
+  font-size: 150px;
+  text-align: center;
+}
+
+.appexp-highlite{
+  position: absolute;
+  border-radius: 3px;
+  overflow: hidden;
+  backdrop-filter: brightness(170%);
+  height: 20%;
+  width: 96%;
+  top: 80px;
+  left: 2%;
+  z-index: 2100000000;
+}
+
+.appexp-text{
+  position: absolute;
+  left: 53%;
+  top: 70px;
+  width: 100%;
+  transform: translate(-50%,-50%);
+  color: rgba(250, 250, 250, 1);
+  font-size: 24px;
+  text-align: left;
+}
+
+.tableexp-highlite{
+  position: absolute;
+  border-radius: 3px;
+  overflow: hidden;
+  backdrop-filter: brightness(175%);
+  height: 70%;
+  width: 79%;
+  top: 270px;
+  left: 17%;
+  z-index: 2100000000;
+}
+
+.tableexp-text{
+  position: absolute;
+  left: 68%;
+  top: 245px;
+  width: 100%;
+  transform: translate(-50%,-50%);
+  color: rgba(250, 250, 250, 1);
+  font-size: 24px;
+  text-align: left;
+}
+
+.optionexp-highlite{
+  position: absolute;
+  border-radius: 3px;
+  overflow: hidden;
+  backdrop-filter: brightness(170%);
+  height: 30%;
+  width: 16%;
+  top: 290px;
+  left: 1%;
+  z-index: 2100000000;
+}
+
+.optionexp-text{
+  position: absolute;
+  left: 51%;
+  top: 260px;
+  width: 100%;
+  transform: translate(-50%,-50%);
+  color: rgba(250, 250, 250, 1);
+  font-size: 24px;
+  text-align: left;
+}
+
+.overendtext{
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 100%;
+  transform: translate(-50%,-50%);
+  color: rgba(250, 250, 250, 1);
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 1vw;
+}
+
 @media screen and (max-width:1024px){
   
 }
