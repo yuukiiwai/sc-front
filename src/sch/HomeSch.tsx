@@ -7,18 +7,34 @@ import { outitem } from './OutTable';
 import Appinput from './Appinput';
 import Tablecnt from './TableCnt';
 import { gra } from './GraTable';
-import SiteAbout from './SiteAbout/SiteAbout';
+import SiteAbout from '../SiteAbout/SiteAbout';
 
 export interface homeprops {
     hosturl:string | undefined
 }
 
-const Homefun:React.FC<homeprops> = (props:homeprops) =>{
+const HomeSch:React.FC<homeprops> = (props:homeprops) =>{
     /* input state */
     const hosturl = props.hosturl;
-    const [appnames,setAppname] = React.useState<Array<string>>([""]);
+    const gparam:string = window.location.search;
+    let defapp:string = "";
+    try{
+        defapp = gparam.replace("?","")
+        .split("&")[0]
+        .split("=")[1]
+        .replace(" ","");
+    }catch{
+        defapp = "";
+    }
+    const [appnames,setAppname] = React.useState<Array<string>>([defapp]);
     const [cpu,setCPU] = React.useState('');
     const [options, setOption] = React.useState(Array<string>);
+
+    /* first load flag */
+    const [oneload,setLoad] = React.useState<number>(0);
+
+    /* help view flag */
+    const [helpflag,setHelp] = React.useState<boolean>(false);
 
     /* output state */
     const [gra_list,setGrab] = React.useState(Array<gra>);
@@ -69,56 +85,94 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
         setAppname(tarr);
     }
 
-    const handleClick = () => {
-        const oriurl:string = hosturl + "/api/v1/devicesearch/appsat/gra/"
+    const schOnOff = ():boolean => {
         if(appnames.length === 1 && appnames[0] === ""){
-        swal({
-            title:"アプリ名を入力してください。",
-            icon:"error",
-            text:"情報が不足しています。",
-        });
-        return;
+            swal({
+                title:"アプリ名を入力してください。",
+                icon:"error",
+                text:"情報が不足しています。",
+            });
+            return false;
         }
+        return true;
+    }
+
+    const makeurl = ():string=>{
+        let url:string = "";
+        const oriurl:string = hosturl + "/api/v1/devicesearch/appsat/gra/"
         let pappname:string = appnames.filter((appname)=>{
             if (appname.replace(" ","") !== ""){
                 return appname;
             }
         }).join("&appname[]=");
-        let url:string = oriurl + "?appname[]=" + pappname;
+        url = oriurl + "?appname[]=" + pappname;
         if(cpu !== ""){
         url = url + "&cpu="+cpu;
         }
         for(let i:number = 0; i < options.length ; i++){
         url = url + "&" + options[i] + "=true";
         }
+        return url;
+    }
 
+    const handleClick = () => {
+        if(schOnOff() === false){
+            return;
+        }
+        const url = makeurl();
+        let tmpGrlist:Array<gra> = [];
         // console.log(url);
-        
         axios.get(url)
         .then(res => {
-        const data = res.data;
-        const graData = data.gra_list;
-        let tmpGrlist:Array<gra> = [];
-        for(let i=0;i<graData.length;i++){
-            let newgra:gra = {
-            name:graData[i].name,
-            url:graData[i].url,
-            directx:graData[i].directx,
-            gpu:graData[i].gpu,
-            interface:graData[i].interface,
-            manufacture:graData[i].manufacture,
-            opengl:graData[i].opengl
+            const data = res.data;
+            const mes:string = res.data.message;
+            if(mes == "Sorry"){
+                swal({
+                    title:"ごめんなさい",
+                    icon:"error",
+                    text:"当サイトはまだそのアプリに対応できていません。\n上部バーの「登録アプリ一覧」から対応アプリをご確認ください。",
+                });
             }
-            tmpGrlist.push(newgra)
-        }
-        setGrab(tmpGrlist);
+            const graData = data.gra_list;
+            for(let i=0;i<graData.length;i++){
+                const newgra:gra = {
+                name:graData[i].name,
+                url:graData[i].url,
+                directx:graData[i].directx,
+                gpu:graData[i].gpu,
+                interface:graData[i].interface,
+                manufacture:graData[i].manufacture,
+                opengl:graData[i].opengl
+                }
+                tmpGrlist.push(newgra)
+            }
+            // !!! ここに入れてるとうまくいく。後で考察 !!!
+            setGrab(tmpGrlist);
         });
+    }
+
+    if(oneload === 0 && defapp !== ""){
+        handleClick();
+        setLoad(1);
+    }
+
+    const hintclick = () => {
+        setHelp(true);
+    }
+
+    const helpclose = () => {
+        setHelp(false);
     }
 
     return (
         <div className="main">
-            <SiteAbout 
-            />
+            {
+                <SiteAbout 
+                displayflag = {helpflag}
+                notLook = {helpclose}
+                />
+            }
+            <i onClick={()=>{hintclick()}} className="fa-regular fa-circle-question"/>
             <Appinput
                 value={appnames}
                 example="どのアプリを使いたいですか？（例:OBS）"
@@ -159,4 +213,4 @@ const Homefun:React.FC<homeprops> = (props:homeprops) =>{
     );
 }
 
-export default Homefun;
+export default HomeSch;

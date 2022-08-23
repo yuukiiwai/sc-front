@@ -34,18 +34,11 @@ const InputBox:React.FC<bProps> = (props:bProps) =>{
 }
 
 const Appinput:React.FC<Props> = (props:Props) =>{
-    const hintclick = () => {
-        swal({
-            title:"ヒント",
-            icon:"info",
-            text:"目的のアプリが見つからない場合、\nスペルを上タブの「登録アプリ一覧」よりご確認ください。"
-        });
-    }
+    
     return(
         <div className="top-search">
             <div className="top-search-container">
                 <i className="fa-solid fa-magnifying-glass"></i>
-                {" "}<i onClick={()=>{hintclick()}} className="fa-regular fa-circle-question"></i>
                 {props.value.map((item,key)=>{
                     return(
                         <InputBox

@@ -19,7 +19,7 @@ const OptionExp:React.FC<props> = (props:props) =>{
                     </p>
                 </div>
                 <div className="orver-next" onClick={props.next}>
-                    {">"}
+                    <i className="ph-caret-circle-right"/>
                 </div>
             </div>
             }

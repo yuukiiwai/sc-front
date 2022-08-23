@@ -5,23 +5,24 @@ import OptionExp from "./OptionEXP";
 import TableExp from "./TableEXP";
 import { useCookies } from 'react-cookie';
 
-const SiteAbout:React.FC = () =>{
+interface Props{
+    displayflag:boolean,
+    notLook:()=>void
+}
+
+const SiteAbout:React.FC<Props> = (props:Props) =>{
     /* Site about display flag */
-    const [displayflag,setDF] = React.useState<boolean>(true);
     const [dfAE,setDFappexp] = React.useState<boolean>(false);
     const [dfTE,setDFtableexp] = React.useState<boolean>(false);
     const [dfOP,setDFoptionexp] = React.useState<boolean>(false);
     const [dfEC,setDFendcard] = React.useState<boolean>(false);
 
-    /* tutorial cookie */
-    const [cookies,setCookie,removeCookie] = useCookies(["turoial"]);
-
     const LookSiteAbout = () => {
-        setDF(false);
+        props.notLook();
         setDFappexp(true);
     }
     const notLookSiteAbout = () =>{
-        setDF(false);
+        props.notLook();
     }
 
     const nextAP = () => {
@@ -45,18 +46,15 @@ const SiteAbout:React.FC = () =>{
 
     return(
         <div>
-            {(typeof(cookies.turoial) === typeof(undefined) && cookies.turoial !== false) && displayflag && 
+            {props.displayflag &&
             <div id="overlay">
                 <div className="overtext">
                 
                 <h1 className="center-h">このサイトについて</h1>
                 <hr />
                 <p>使い方を...</p>
-                <p onClick={LookSiteAbout}>見る</p>
-                <p onClick={notLookSiteAbout}>見ない</p>
-                <p onClick={()=>{
-                    setCookie('turoial',false);
-                }}>二度と表示しない{"（Cookieを使用します）"}</p>
+                <p className="site-op" onClick={LookSiteAbout}>見る</p>
+                <p className="site-op" onClick={notLookSiteAbout}>見ない</p>
                 </div>
             </div>
             }

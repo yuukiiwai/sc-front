@@ -5,16 +5,18 @@ interface props{
     next:()=>void
 }
 
-const Endcard:React.FC<props> = (props:props) =>{
+const AppExp:React.FC<props> = (props:props) =>{
     return(
         <div>
             {props.displayflag && 
             <div id="overlay" >
-                <div className="overendtext">
-                    <h1>検索を開始</h1>
+                <div className="appexp-highlite">
+                </div>
+                <div className="appexp-text">
+                    <p>使いたいゲームやアプリの名前を入力</p>
                 </div>
                 <div className="orver-next" onClick={props.next}>
-                    {">"}
+                    <i className="ph-caret-circle-right"/>
                 </div>
             </div>
             }
@@ -22,4 +24,4 @@ const Endcard:React.FC<props> = (props:props) =>{
     )
 }
 
-export default Endcard;
+export default AppExp;

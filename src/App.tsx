@@ -3,9 +3,10 @@ import { BrowserRouter, Route,Routes } from 'react-router-dom';
 import Allapp from './allapp/Allapp';
 import Allgra from './allgra/Allgra';
 import './App.css';
-import Homefun from './homefun/Homefun';
+import HomeSch from './sch/HomeSch';
 import Nav from './Nav';
 import { CookiesProvider } from 'react-cookie';
+import Home from './home/Home';
 
 function App() { 
     const hosturl = process.env.REACT_APP_API_ORIGIN;
@@ -14,11 +15,15 @@ function App() {
             <Nav />
             <Routes>
                 <Route path='/' element={
-                    <CookiesProvider>
-                    <Homefun
+                    <Home
+                    origin={hosturl as string}
+                    />
+                }
+                />
+                <Route path='sch' element={
+                    <HomeSch
                         hosturl={hosturl}
                     />
-                    </CookiesProvider>
                 }
                 />
                 <Route path='allapp' element={

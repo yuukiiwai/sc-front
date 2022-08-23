@@ -17,7 +17,7 @@ const TableExp:React.FC<props> = (props:props) =>{
                         <br/>グラフィックカードを表示</p>
                 </div>
                 <div className="orver-next-t" onClick={props.next}>
-                    {">"}
+                    <i className="ph-caret-circle-right"/>
                 </div>
             </div>
             }

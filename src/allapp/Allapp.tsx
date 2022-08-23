@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { homeprops } from "../homefun/Homefun";
+import { homeprops } from "../sch/HomeSch";
 
 const Allapp:React.FC<homeprops> = (props:homeprops) => {
     const url = props.hosturl+"/api/v1/devicesearch/apps/";
