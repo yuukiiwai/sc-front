@@ -1,7 +1,9 @@
 import React,{FC, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const Input:FC = () => {
     const [value,setValue] = useState<string>("");
+    const navigate = useNavigate();
     const inputing = (e:React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
     }
@@ -16,7 +18,7 @@ const Input:FC = () => {
             onChange={inputing}
             onKeyDown={(e)=>{
                 if(e.key === 'Enter'){
-                    document.location.href = "/sch/?s="+value;
+                    navigate("/sch/?s="+value);
                 }
             }}
             autoComplete={"on"}
@@ -28,7 +30,7 @@ const Input:FC = () => {
                 <option value="FORTNITE"/>
             </datalist>
             <button 
-            onClick={()=>{document.location.href ="/sch/?s="+value}}
+            onClick={()=>{navigate("/sch/?s="+value)}}
             className="btn-outline-secondary btn-lg"
             >
                 <i className="fa-solid fa-magnifying-glass"/>
