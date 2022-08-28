@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 import { outitem } from './OutTable';
 import Appinput from './Appinput';
 import Tablecnt from './TableCnt';
-import { gra } from './GraTable';
+import GraTable, { gra } from './GraTable';
 import SiteAbout from '../SiteAbout/SiteAbout';
 
 export interface homeprops {
@@ -121,28 +121,44 @@ const HomeSch:React.FC<homeprops> = (props:homeprops) =>{
         }
         const url = makeurl();
         let tmpGrlist:Array<gra> = [];
+        let graData:Array<gra> = [];
         // console.log(url);
         axios.get(url)
         .then(res => {
             const data = res.data;
             const mes:string = res.data.message;
-            if(mes == "Sorry"){
+            if(mes === "Sorry Non App"){
                 swal({
                     title:"ごめんなさい",
                     icon:"error",
                     text:"当サイトはまだそのアプリに対応できていません。\n上部バーの「登録アプリ一覧」から対応アプリをご確認ください。",
                 });
+            }else if(mes === "Sorry Non Card"){
+                swal({
+                    title:"ごめんなさい",
+                    icon:"error",
+                    text:"当サイトはご希望のグラフィックカードを取り扱えてないようです。\nご自身でお探しください。",
+                });
+            }else if(mes === "Sorry unskilled"){
+                swal({
+                    title:"ごめんなさい",
+                    icon:"error",
+                    text:"技術不足により謎エラーが発生しました。",
+                });
+            }else{
+                graData = data.gra_list;
             }
-            const graData = data.gra_list;
             for(let i=0;i<graData.length;i++){
                 const newgra:gra = {
+                id:graData[i].id,
                 name:graData[i].name,
                 url:graData[i].url,
                 directx:graData[i].directx,
                 gpu:graData[i].gpu,
                 interface:graData[i].interface,
                 manufacture:graData[i].manufacture,
-                opengl:graData[i].opengl
+                opengl:graData[i].opengl,
+                img_url:graData[i].img_url
                 }
                 tmpGrlist.push(newgra)
             }
@@ -181,7 +197,6 @@ const HomeSch:React.FC<homeprops> = (props:homeprops) =>{
                 plusbutton={plusbutton}
                 minusbutton={minusbutton}
                 />
-                <hr></hr>
             <div className='parallel'>
                 <div className='side'>
                     <div className="accordion box">
@@ -203,8 +218,8 @@ const HomeSch:React.FC<homeprops> = (props:homeprops) =>{
                     <button type='button' className='btn btn-outline-dark btn-lg schbutton' onClick={handleClick}>検索</button>
                 </div>
                 <div className='tablecont'>
-                    <Tablecnt 
-                        gralist={gra_list}
+                    <GraTable
+                        list={gra_list}
                     />
                 </div>
             </div>

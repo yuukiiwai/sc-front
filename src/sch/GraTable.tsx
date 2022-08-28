@@ -1,11 +1,13 @@
 import React,{FC} from "react"
+import { Link } from "react-router-dom";
+import PrCard from "../home/prCard";
 
 export interface gratableprops{
-    title:string,
     list : Array<gra>,
 }
 
 export interface gra{
+    id:number,
     name:string,
     url:string,
     directx:string,
@@ -13,60 +15,28 @@ export interface gra{
     manufacture:string,
     interface:string,
     gpu:string,
+    img_url:string
 }
 
 const GraTable:FC<gratableprops> = (props:gratableprops) => {
     return(
-        <div className="outtable box">
-            <table className='table table-striped'>
-                <thead  className="sticky-top bg-light">
-                    <tr >
-                        <th scope='col'>{props.title+"("+props.list.length+")"}</th>
-                        <th scope="col">製造</th>
-                        <th scope="col">インターフェース</th>
-                        <th scope="col">GPU</th>
-                        <th scope="col">DirectX</th>
-                        <th scope="col">OpenGL</th>
-                        <th scope="col">公式ページ</th>
-                        <th scope="col">amazon</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.list.map((gra:gra,key)=>{
-                            return(
-                                <tr key={key}>
-                                    <th className="col-md-4">
-                                        {gra.name}
-                                    </th>
-                                    <th className="col-md-1">
-                                        {gra.manufacture}
-                                    </th>
-                                    <th className="col-md-2">
-                                        {gra.interface}
-                                    </th>
-                                    <th className="col-md-2">
-                                        {gra.gpu}
-                                    </th>
-                                    <th className="col-md-1">
-                                        {gra.directx}
-                                    </th>
-                                    <th className="col-md-1">
-                                        {gra.opengl}
-                                    </th>
-                                    <th className="col-md-2">
-                                        <a target={"_blank"} rel={"noopener noreferrer"} href={gra.url}>公式ページ</a>
-                                    </th>
-                                    <th className="col-md-1">
-                                        <a target={"_blank"} rel={"noopener noreferrer"} href={"https://www.amazon.co.jp/s?k="+gra.name}>
-                                        <i className="fa-brands fa-amazon"></i>
-                                        </a>
-                                    </th>
-                                </tr>
-                            )
-                        }
-                    )}
-                </tbody>
-            </table>
+        <div className="box">
+            <p>検索結果 <span className="bigtext">{props.list.length}</span> 件</p>
+            <div className="row row-cols-1 row-cols-5 g-4 textcenter">
+                {props.list.map((gra:gra,key)=>{
+                    return(
+                        <div className="col" key={key}>
+                            <Link to={"/sch/detail/"+gra.id} target="_blank">
+                                <PrCard
+                                    id = {gra.id}
+                                    name= {gra.name}
+                                    img_url={gra.img_url}
+                                />
+                            </Link>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     );
 }

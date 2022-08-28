@@ -24,18 +24,6 @@ const Tablecnt:React.FC<tablecntprops> = (props:tablecntprops)=>{
                     >
                     グラフィックカード
                     </button>
-                    <button
-                    className="nav-link"
-                    id="nav-profile-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#nav-profile"
-                    type="button"
-                    role="tab"
-                    aria-controls="nav-profile"
-                    aria-selected="false"
-                    >
-                    メモリ
-                    </button>
                 </div>
             </nav>
             <div className="tab-content" id="nav-tabContent">
@@ -46,17 +34,8 @@ const Tablecnt:React.FC<tablecntprops> = (props:tablecntprops)=>{
                     aria-labelledby="nav-home-tab"
                 >
                     <GraTable 
-                    title="グラフィックカード"
                     list={props.gralist}
                     />
-                </div>
-                <div
-                    className="tab-pane fade"
-                    id="nav-profile"
-                    role="tabpanel"
-                    aria-labelledby="nav-profile-tab"
-                >
-                    ...
                 </div>
             </div>
         </div>

@@ -8,9 +8,22 @@
   text-align: center;
 }
 
+.textleft{
+  text-align: left;
+}
+
+.boxcenter{
+  width: 700px;
+  margin: auto;
+}
+
+.bigtext{
+  font-size: 14pt;
+}
+
 .appinput{
   padding-top: 1rem;
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
   /* position: -webkit-sticky;
   position: sticky;
   top: 70px;
@@ -19,7 +32,7 @@
 
 .parallel{
   min-height: 80vh;
-  padding-top: 5px;
+  padding-top: 2px;
   padding-bottom: 0%;
   flex: 1;
   flex-grow: 1;
@@ -32,6 +45,7 @@
   flex-direction: column;
   flex-grow: 1;
   flex: 1;
+  margin-top: 2rem;
 }
 
 .side {
@@ -70,6 +84,18 @@
   left: 0;
 }
 
+/* card table */
+
+.___card-img {
+  width: 15vw;
+}
+
+.___card-txt {
+  text-decoration-line: none;
+  color: black;
+}
+
+/* tutorial */
 .appexp {
   margin-top: 3px;
 }
@@ -232,6 +258,11 @@
   font-size: 24px;
   text-align: center;
   letter-spacing: 1vw;
+}
+
+/* detail css */
+.detail-pic{
+  height: 30vh;
 }
 
 @media screen and (max-width:1024px){

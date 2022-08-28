@@ -7,6 +7,7 @@ import HomeSch from './sch/HomeSch';
 import Nav from './Nav';
 import { CookiesProvider } from 'react-cookie';
 import Home from './home/Home';
+import Detail from './sch/Detail';
 
 function App() { 
     const hosturl = process.env.REACT_APP_API_ORIGIN;
@@ -23,6 +24,11 @@ function App() {
                 <Route path='sch' element={
                     <HomeSch
                         hosturl={hosturl}
+                    />
+                }
+                />
+                <Route path='sch/detail/:id' element={
+                    <Detail
                     />
                 }
                 />
